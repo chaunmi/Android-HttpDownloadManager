@@ -1,4 +1,4 @@
-package com.coolerfall.download
+package com.chaunmi.downloader
 
 import android.net.Uri
 import java.io.IOException
@@ -94,7 +94,8 @@ class URLDownloader private constructor() : Downloader {
       HttpURLConnection.HTTP_MOVED_PERM,
       HttpURLConnection.HTTP_MOVED_TEMP,
       HttpURLConnection.HTTP_SEE_OTHER,
-      Helper.HTTP_TEMP_REDIRECT ->
+      Helper.HTTP_TEMP_REDIRECT
+      ->
         if (redirectionCount.decrementAndGet() >= 0) {
           /* take redirect url and call start recursively */
           val redirectUrl = httpURLConnection.getHeaderField(Helper.LOCATION)

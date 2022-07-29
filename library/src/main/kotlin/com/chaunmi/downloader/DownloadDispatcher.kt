@@ -1,9 +1,9 @@
-package com.coolerfall.download
+package com.chaunmi.downloader
 
 import android.os.Process
-import com.coolerfall.download.DownloadState.FAILURE
-import com.coolerfall.download.DownloadState.RUNNING
-import com.coolerfall.download.DownloadState.SUCCESSFUL
+import com.chaunmi.downloader.DownloadState.FAILURE
+import com.chaunmi.downloader.DownloadState.RUNNING
+import com.chaunmi.downloader.DownloadState.SUCCESSFUL
 import java.io.File
 import java.io.IOException
 import java.io.InputStream
@@ -111,15 +111,18 @@ internal class DownloadDispatcher(
 
   /* update download success */
   private fun updateSuccess(
-    request: DownloadRequest
+    request: DownloadRequest,
+    replaceNew: Boolean = true
   ) {
     updateState(request, SUCCESSFUL)
 
     /* notify the request download finish */
     request.finish()
-    val file = File(request.tempFilepath())
-    if (file.exists()) {
-      file.renameTo(File(request.destinationFilepath()))
+    if(replaceNew) {
+      val file = File(request.tempFilepath())
+      if (file.exists()) {
+        file.renameTo(File(request.destinationFilepath()))
+      }
     }
 
     /* deliver success message */
@@ -171,9 +174,11 @@ internal class DownloadDispatcher(
     }
     val downloader = request.downloader()!!
     var raf: RandomAccessFile? = null
-    var `is`: InputStream? = null
+    var input: InputStream? = null
     try {
-      request.updateDestinationFilepath(downloader.detectFilename(request.uri()))
+      logger.log(" executeDownload ")
+      val fileName = downloader.detectFilename(request.uri())
+      request.updateDestinationFilepath(fileName)
       val file = File(request.tempFilepath())
       val fileExsits = file.exists()
       raf = RandomAccessFile(file, "rw")
@@ -186,20 +191,26 @@ internal class DownloadDispatcher(
         logger.log("Detect existed file with $breakpoint bytes, start breakpoint downloading")
       }
       val statusCode = downloader.start(request.uri(), breakpoint)
-      `is` = downloader.byteStream()
+      input = downloader.byteStream()
       if (statusCode != Helper.HTTP_OK && statusCode != Helper.HTTP_PARTIAL) {
         logger.log("Incorrect http code got: $statusCode")
         throw DownloadException(statusCode, "download fail")
       }
       var contentLength = downloader.contentLength()
-      if (contentLength <= 0 && `is` == null) {
+      if (contentLength <= 0 && input == null) {
         throw DownloadException(statusCode, "content length error")
       }
       val noContentLength = contentLength <= 0
       contentLength += bytesWritten
       updateStart(request, contentLength)
-      logger.log("Start to download, content length: $contentLength bytes")
-      if (`is` != null) {
+      val finishedFile = File(request.destinationFilepath())
+      val finishedFileLength = if(finishedFile.exists()) finishedFile.length() else 0
+      logger.log("Start to download, content length: $contentLength bytes, finishedFileLength: $finishedFileLength")
+      if(contentLength > 0 && finishedFileLength == contentLength) {
+        updateSuccess(request, false)
+        return
+      }
+      if (input != null) {
         val buffer = ByteArray(BUFFER_SIZE)
         var length: Int
         while (true) {
@@ -210,7 +221,7 @@ internal class DownloadDispatcher(
           }
 
           /* read data into buffer from input stream */
-          length = readFromInputStream(buffer, `is`)
+          length = readFromInputStream(buffer, input)
           val fileSize = raf.length()
           val totalBytes = if (noContentLength) fileSize else contentLength
           if (length == END_OF_STREAM) {
@@ -238,8 +249,8 @@ internal class DownloadDispatcher(
       }
     } finally {
       downloader.close()
-      silentCloseFile(raf)
-      silentCloseInputStream(`is`)
+      silentCloseRandomAccessFile(raf)
+      silentCloseInputStream(input)
     }
   }
 
@@ -269,7 +280,7 @@ internal class DownloadDispatcher(
   }
 
   /* a utility function to close a random access file without raising an exception */
-  private fun silentCloseFile(raf: RandomAccessFile?) {
+  private fun silentCloseRandomAccessFile(raf: RandomAccessFile?) {
     if (raf != null) {
       try {
         raf.close()
@@ -277,6 +288,7 @@ internal class DownloadDispatcher(
       }
     }
   }
+
 
   /* a utility function to close an input stream without raising an exception */
   private fun silentCloseInputStream(`is`: InputStream?) {

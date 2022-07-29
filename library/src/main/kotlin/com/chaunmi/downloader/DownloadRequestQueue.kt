@@ -1,10 +1,10 @@
-package com.coolerfall.download
+package com.chaunmi.downloader
 
 import android.net.Uri
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
-import com.coolerfall.download.DownloadState.INVALID
+import com.chaunmi.downloader.DownloadState.INVALID
 import java.util.concurrent.PriorityBlockingQueue
 import java.util.concurrent.atomic.AtomicInteger
 

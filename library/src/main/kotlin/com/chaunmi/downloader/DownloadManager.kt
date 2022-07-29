@@ -1,4 +1,4 @@
-package com.coolerfall.download
+package com.chaunmi.downloader
 
 import android.content.ContentValues
 import android.content.Context
@@ -9,11 +9,11 @@ import android.os.Environment
 import android.provider.MediaStore.Downloads
 import android.provider.MediaStore.Files.FileColumns
 import android.webkit.MimeTypeMap
-import com.coolerfall.download.DownloadState.INVALID
-import com.coolerfall.download.Helper.copy
-import com.coolerfall.download.Helper.createDefaultDownloader
-import com.coolerfall.download.Helper.resolvePath
-import com.coolerfall.download.Preconditions.checkNotNull
+import com.chaunmi.downloader.DownloadState.INVALID
+import com.chaunmi.downloader.Helper.copy
+import com.chaunmi.downloader.Helper.createDefaultDownloader
+import com.chaunmi.downloader.Helper.resolvePath
+import com.chaunmi.downloader.Preconditions.checkNotNull
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream

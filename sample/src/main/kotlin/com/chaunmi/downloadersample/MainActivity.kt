@@ -1,4 +1,4 @@
-package com.coolerfall.downloadsample
+package com.chaunmi.downloadersample
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -9,15 +9,13 @@ import android.view.View.OnClickListener
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.coolerfall.download.DownloadCallback
-import com.coolerfall.download.DownloadManager
-import com.coolerfall.download.DownloadManager.Builder
-import com.coolerfall.download.DownloadRequest
-import com.coolerfall.download.OkHttpDownloader.Companion.create
-import com.coolerfall.download.Priority.HIGH
-import com.coolerfall.download.Priority.NORMAL
-import com.coolerfall.downloadsample.R.id
-import com.coolerfall.downloadsample.R.layout
+import com.chaunmi.downloader.DownloadCallback
+import com.chaunmi.downloader.DownloadManager
+import com.chaunmi.downloader.DownloadManager.Builder
+import com.chaunmi.downloader.DownloadRequest
+import com.chaunmi.downloader.OkHttpDownloader.Companion.create
+import com.chaunmi.downloader.Priority.HIGH
+import com.chaunmi.downloader.Priority.NORMAL
 import okhttp3.OkHttpClient
 import java.io.File
 import java.util.concurrent.TimeUnit.SECONDS
@@ -37,22 +35,22 @@ class MainActivity : AppCompatActivity(), OnClickListener {
   private var downloadManager: DownloadManager? = null
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    setContentView(layout.activity_main)
-    findViewById<View>(id.download_btn_start).setOnClickListener(this)
-    findViewById<View>(id.download_btn_start1).setOnClickListener(this)
-    findViewById<View>(id.download_btn_start2).setOnClickListener(this)
-    findViewById<View>(id.download_btn_start3).setOnClickListener(this)
-    findViewById<View>(id.download_btn_start4).setOnClickListener(this)
-    progressBar = findViewById(id.download_progress)
-    progressBar1 = findViewById(id.download_progress1)
-    progressBar2 = findViewById(id.download_progress2)
-    progressBar3 = findViewById(id.download_progress3)
-    progressBar4 = findViewById(id.download_progress4)
-    textSpeed = findViewById(id.download_tv_speed0)
-    textSpeed1 = findViewById(id.download_tv_speed1)
-    textSpeed2 = findViewById(id.download_tv_speed2)
-    textSpeed3 = findViewById(id.download_tv_speed3)
-    textSpeed4 = findViewById(id.download_tv_speed4)
+    setContentView(R.layout.activity_main)
+    findViewById<View>(R.id.download_btn_start).setOnClickListener(this)
+    findViewById<View>(R.id.download_btn_start1).setOnClickListener(this)
+    findViewById<View>(R.id.download_btn_start2).setOnClickListener(this)
+    findViewById<View>(R.id.download_btn_start3).setOnClickListener(this)
+    findViewById<View>(R.id.download_btn_start4).setOnClickListener(this)
+    progressBar = findViewById(R.id.download_progress)
+    progressBar1 = findViewById(R.id.download_progress1)
+    progressBar2 = findViewById(R.id.download_progress2)
+    progressBar3 = findViewById(R.id.download_progress3)
+    progressBar4 = findViewById(R.id.download_progress4)
+    textSpeed = findViewById(R.id.download_tv_speed0)
+    textSpeed1 = findViewById(R.id.download_tv_speed1)
+    textSpeed2 = findViewById(R.id.download_tv_speed2)
+    textSpeed3 = findViewById(R.id.download_tv_speed3)
+    textSpeed4 = findViewById(R.id.download_tv_speed4)
     val client: OkHttpClient = OkHttpClient.Builder()
         .build()
     downloadManager = Builder().context(this)
@@ -70,19 +68,19 @@ class MainActivity : AppCompatActivity(), OnClickListener {
   override fun onClick(v: View) {
     var index = 0
     when (v.id) {
-      id.download_btn_start -> {
+      R.id.download_btn_start -> {
         index = INDEX_0
       }
-      id.download_btn_start1 -> {
+      R.id.download_btn_start1 -> {
         index = INDEX_1
       }
-      id.download_btn_start2 -> {
+      R.id.download_btn_start2 -> {
         index = INDEX_2
       }
-      id.download_btn_start3 -> {
+      R.id.download_btn_start3 -> {
         index = INDEX_3
       }
-      id.download_btn_start4 -> {
+      R.id.download_btn_start4 -> {
         index = INDEX_4
       }
     }
@@ -172,9 +170,28 @@ class MainActivity : AppCompatActivity(), OnClickListener {
       downloadId: Int,
       filepath: String
     ) {
-      Log.d(TAG, "success: " + downloadId + " size: " + File(filepath).length())
+      Log.d(TAG, "success: " + downloadId + " size: " + File(filepath).length() + ", filepath: $filepath")
+      when (queryIndex(downloadId)) {
+        INDEX_0 -> {
+          progressBar!!.progress = 100
+        }
+        INDEX_1 -> {
+          progressBar1!!.progress = 100
+        }
+        INDEX_2 -> {
+          progressBar2!!.progress = 100
+        }
+        INDEX_3 -> {
+          progressBar3!!.progress = 100
+        }
+        INDEX_4 -> {
+          progressBar4!!.progress = 100
+        }
+        else -> {}
+      }
+
       val result = downloadManager!!.copyToPublicDownloadDir(filepath)
-      Log.i(TAG, "result of copying file: $result")
+//      Log.i(TAG, "result of copying file: $result")
     }
 
     override fun onFailure(
@@ -189,11 +206,11 @@ class MainActivity : AppCompatActivity(), OnClickListener {
   companion object {
     private const val TAG = "HttpDownloadManager"
     private val URL = arrayOf(
-        "https://f-droid.org/repo/com.gitlab.mahc9kez.shadowsocks.foss_50104000.apk",
-        "https://f-droid.org/repo/org.moire.ultrasonic_100.apk",
-        "https://f-droid.org/repo/com.simplemobiletools.draw.pro_65.apk",
-        "https://f-droid.org/repo/im.vector.app_40103180.apk",
-        "https://f-droid.org/repo/it.reyboz.bustorino_38.apk"
+        "https://cdn.llscdn.com/yy/files/xs8qmxn8-lls-LLS-5.8-800-20171207-111607.apk",
+        "https://cdn.llscdn.com/yy/files/tkzpx40x-lls-LLS-5.7-785-20171108-111118.apk",
+        "http://dldir1.qq.com/weixin/android/weixin703android1400.apk",
+        "https://qd.myapp.com/myapp/qqteam/AndroidQQ/mobileqq_android.apk",
+        "http://wap.dl.pinyin.sogou.com/wapdl/hole/201512/03/SogouInput_android_v7.11_sweb.apk"
     )
     private const val INDEX_0 = 0
     private const val INDEX_1 = 1

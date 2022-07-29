@@ -1,7 +1,7 @@
-package com.coolerfall.download
+package com.chaunmi.downloader
 
 import android.net.Uri
-import com.coolerfall.download.OkHttpDownloader.Companion.create
+import com.chaunmi.downloader.OkHttpDownloader.Companion.create
 import okhttp3.OkHttpClient
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer

@@ -1,4 +1,4 @@
-package com.coolerfall.download
+package com.chaunmi.downloader
 
 import android.os.Handler
 import java.util.concurrent.Executor
@@ -20,8 +20,8 @@ internal class DownloadDelivery(handler: Handler) {
    * @param totalBytes total bytes
    */
   fun postStart(
-    request: DownloadRequest,
-    totalBytes: Long
+      request: DownloadRequest,
+      totalBytes: Long
   ) {
     downloadPoster.execute {
       request.downloadCallback()
@@ -49,9 +49,9 @@ internal class DownloadDelivery(handler: Handler) {
    * @param totalBytes the total bytes of currnet file in downloading
    */
   fun postProgress(
-    request: DownloadRequest,
-    bytesWritten: Long,
-    totalBytes: Long
+      request: DownloadRequest,
+      bytesWritten: Long,
+      totalBytes: Long
   ) {
     downloadPoster.execute {
       request.downloadCallback()
@@ -79,9 +79,9 @@ internal class DownloadDelivery(handler: Handler) {
    * @param errMsg error message
    */
   fun postFailure(
-    request: DownloadRequest,
-    statusCode: Int,
-    errMsg: String?
+      request: DownloadRequest,
+      statusCode: Int,
+      errMsg: String?
   ) {
     downloadPoster.execute {
       request.downloadCallback()

@@ -1,6 +1,6 @@
-package com.coolerfall.download
+package com.chaunmi.downloader
 
-import com.coolerfall.download.DownloadManager.Builder
+import com.chaunmi.downloader.DownloadManager.Builder
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
 import org.junit.Assert

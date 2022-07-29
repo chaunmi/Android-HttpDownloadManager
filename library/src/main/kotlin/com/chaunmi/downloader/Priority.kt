@@ -1,4 +1,4 @@
-package com.coolerfall.download
+package com.chaunmi.downloader
 
 /**
  * Download request will be processed from higher priorities to lower priorities.

@@ -1,4 +1,4 @@
-package com.coolerfall.download
+package com.chaunmi.downloader
 
 import android.text.TextUtils
 import java.io.File
@@ -154,9 +154,9 @@ object Helper {
   internal fun createDefaultDownloader(): Downloader {
     return try {
       Class.forName("okhttp3.OkHttpClient")
-      OkHttpDownloader.create()
+        OkHttpDownloader.create()
     } catch (ignored: ClassNotFoundException) {
-      URLDownloader.create()
+        URLDownloader.create()
     }
   }
 }

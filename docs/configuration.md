@@ -12,7 +12,7 @@ Application context to get download root directory, this cannot be null.
 
 ### downloader
 
-* Type: `com.coolerfall.download.Downloader`
+* Type: `com.chaunmi.downloader.Downloader`
 * Optional: `true`
 
 You can implement a `Downloader` with any http library. The download manager will detect http library and choose available `Downloader` to use if not set. The download manager provides `OkHttpDownloader` and `URLDownloader` currently.
@@ -28,8 +28,8 @@ The pool size of the download dispatcher thread. The default size will be set if
 
 ### logger
 
-* Type: `com.coolerfall.download.Logger`
-* Default: `com.coolerfall.download.Logger.EMPTY`
+* Type: `com.chaunmi.downloader.Logger`
+* Default: `com.chaunmi.downloader.Logger.EMPTY`
 
 Log necessary information when downloading. If you don't care this, just ignore.
 
@@ -75,8 +75,8 @@ Set filepath mannully. The download manager will use this filepath instead of au
 
 ### priority
 
-* Type: `com.coolerfall.download.Priority`
-* Default: `com.coolerfall.download.Priority.Normal`
+* Type: `com.chaunmi.downloader.Priority`
+* Default: `com.chaunmi.downloader.Priority.Normal`
 
 Higher priority will download first.
 
@@ -103,8 +103,8 @@ Interval of progress refreshing.
 
 ### downloadCallback
 
-* Type: `com.coolerfall.download.DownloadCallback`
-* Default: `com.coolerfall.download.DownloadCallback.EMPTY`
+* Type: `com.chaunmi.downloader.DownloadCallback`
+* Default: `com.chaunmi.downloader.DownloadCallback.EMPTY`
 
 Provides some callbacks when downloading.
 

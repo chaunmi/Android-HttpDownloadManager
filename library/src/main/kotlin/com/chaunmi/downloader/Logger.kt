@@ -1,4 +1,4 @@
-package com.coolerfall.download
+package com.chaunmi.downloader
 
 /**
  * A simple indirection for logging debug messages.
@@ -17,4 +17,5 @@ fun interface Logger {
    * @param message message
    */
   fun log(message: String)
+
 }

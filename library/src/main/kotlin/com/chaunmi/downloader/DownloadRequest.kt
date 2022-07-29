@@ -1,10 +1,10 @@
-package com.coolerfall.download
+package com.chaunmi.downloader
 
 import android.net.Uri
-import com.coolerfall.download.DownloadState.PENDING
-import com.coolerfall.download.Helper.resolvePath
-import com.coolerfall.download.Preconditions.checkNotNull
-import com.coolerfall.download.Priority.NORMAL
+import com.chaunmi.downloader.DownloadState.PENDING
+import com.chaunmi.downloader.Helper.resolvePath
+import com.chaunmi.downloader.Preconditions.checkNotNull
+import com.chaunmi.downloader.Priority.NORMAL
 import java.io.File
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicInteger
