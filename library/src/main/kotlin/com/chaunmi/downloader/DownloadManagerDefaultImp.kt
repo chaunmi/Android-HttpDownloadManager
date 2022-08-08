@@ -13,7 +13,7 @@ object DownloadManagerDefaultImp {
 
 
     fun getDownloadManager(): DownloadManager {
-        if(::downloadManager.isInitialized) {
+        if(!::downloadManager.isInitialized) {
             throw Exception("DownloadManager has not init, please call init first!!!")
         }
         return downloadManager
